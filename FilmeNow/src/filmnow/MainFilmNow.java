@@ -59,7 +59,7 @@ public class MainFilmNow {
 						"(S)Sair\n" + 
 						"\n" + 
 						"Opção: ");
-		return scanner.next().toUpperCase();
+		return scanner.nextLine().toUpperCase();
 	}
 
 	/**
@@ -98,184 +98,53 @@ public class MainFilmNow {
 	}
 
 
-	/**
-	 * Cadastra um filme no sistema. 
-	 * 
-	 * @param fn O sistema FilmNow a ser manipulado.
-	 * @param scanner Scanner para pedir informações do contato.
-	 */
-	private static void adicionaFilme(FilmNow fn, Scanner scanner) {
-		System.out.print("\nPosição no sistema: ");
-		int posicao = scanner.nextInt();
-		
-		// Checa se o filme pode ser adicionado na lista e adiciona(se possivel)
-		if (posicao - 1 < fn.getTamanho()) {
-			
+	private static void adicionaFilme(FilmNow fn, Scanner scanner){
+			System.out.print("\nPosição no sistema: ");
+			String posicao = scanner.nextLine();			
 			System.out.print("\nNome: ");
-			String nome = scanner.next();
+			String nome = scanner.nextLine();
 			System.out.print("\nAno: ");
-			int ano = scanner.nextInt();
+			String ano = scanner.nextLine();
 			System.out.print("\nLocal de Exibição: ");
-			String local = scanner.next();
-				
-			// Percorre a lista e checa de o filme ja existe
-			
-			Filme filmeQueEstamosTentandoAdicionar = new Filme(nome, ano, local);
-			boolean jaExiste = false;
-			
-			for (int i = 0; i < fn.getTamanho(); i++) {
-				if (filmeQueEstamosTentandoAdicionar.equals(fn.getFilme(i))) {
-					jaExiste = true;
-					break;
-				}
-			}
-			
-			// Se o Filme não existe, é adicionado na lista, se já existe, é informado ao usuário
-			
-			if (!jaExiste) 
-				fn.cadastraFilme(posicao, nome, ano, local);
-			
-			else 
-				System.out.println("FILME JA ADICIONADO");
-				
-			
-		} else {
-			System.out.println("POSIÇÃO INVÁLIDA");
-		}
-		
+			String local = scanner.nextLine();
+
+			System.out.println(fn.adicionaFilme(nome, Integer.parseInt(ano), local, Integer.parseInt(posicao)));
 	}
 
 
-		/**
-	 * Imprime lista de filmes.
-	 * 
-	 * @param fn O sistema FilmNow a ser manipulado.
-	 */
 	private static void mostrarFilmes(FilmNow fn) {
-
-		for (int i = 0; i < fn.getTamanho(); i++) {
-			if (fn.getFilme(i) != null) {			
-				System.out.println(formataFilme(i, fn));
-			}
-		}
+		System.out.print(fn.mostrarFilmes());
 	}
 
 
-		/**
-	 * Formata um filme para impressão. 
-	 * 
-	 * @param posicao A posição do filme (que é exibida)/
-	 * @param filme O filme a ser impresso.
-	 * @return A String formatada.
-	 */
-	private static String formataFilme(int posicao, FilmNow fn) {
-		return posicao + 1 + " - " +  fn.getNomeFilme(posicao);
-	}
-
-
-	/**
-	 * Imprime os detalhes de um dos filmes. 
-	 * 
-	 * @param fn O sistema FilmNow a ser manipulado.
-	 * @param scanner Scanner para capturar qual contato.
-	 */
 	private static void detalharFilme(FilmNow fn, Scanner scanner) {
-		System.out.print("\nPosicao do filme: ");
-		int posicao = scanner.nextInt();
+		System.out.print("\nPosicao do filme na Lista: ");
+		String posicao = scanner.nextLine();
 		
-		Filme filme = fn.getFilme(posicao - 1);
-		if (filme == null) {
-			System.out.println("POSIÇÃO INVÁLIDA!");
-		} else {
-			System.out.println("Dados do filme:\n" + fn.GettoStringFilme(posicao - 1));
-		}
-
+		System.out.println(fn.detalharFilme(Integer.parseInt(posicao)));
 	}
 	
 
 	private static void exibirHotList(FilmNow fn) {
-		for (int i = 0; i < fn.getTamanho(); i++) {
-			
-			if (fn.getFilme(i) != null) {
-				
-				if (fn.getHotFilme(i)) {
-					System.out.printf("%d - %s, %d%n", 
-					fn.getPosicionHotFilme(i), 
-					fn.getNomeFilme(i), 
-					fn.getAnoFilme(i)
-					);
-				}
-			}
-		}
-	}
-
-	private static boolean atribuiHot(FilmNow fn, Scanner sc) {
-		System.out.print("Posicao do Filme na Lista: ");
-		int posicaoFilmeLista = sc.nextInt();
-		System.out.print("posicao da Hot: ");
-		int posicaoHotList = sc.nextInt();
-
-		System.out.println(1);
-		// Hotlist só tem 10 espaços
-		if(posicaoHotList > 10) {
-			return false;
-		}
-
-		System.out.println(2);
-		// Se o Filme já está na HotList, não podemos adiciona-lo novamente
-		if (fn.getFilme(posicaoFilmeLista - 1) != null) {	
-			if (fn.getFilme(posicaoFilmeLista -1 ).getHot()) {
-				System.out.println("Filme já está na HotList");
-				return false;
-			}
-		}
-
-		System.out.println(3);
-		// Se já existir um filme nessa posicao da hotlist é preciso remover o status de Hot desse filme
-		for (int i = 0; i < fn.getTamanho(); i++) {
-			if (fn.getFilme(i) != null) {	
-				if (fn.getFilme(i).getHot()) {
-					if (fn.getFilme(i).getPosicionHot() == posicaoHotList) {
-						fn.getFilme(i).setHot(false);
-						fn.getFilme(i).setPosicionHot(11); // isso não é necessário, coloquei apenas para que de erro se a hot nao funcionar como o esperado
-						break;
-					}
-				}
-			}
-		}
-
-		System.out.println(4);
-		fn.getFilmes()[posicaoFilmeLista - 1].setHot(true);
-		fn.getFilmes()[posicaoFilmeLista - 1].setPosicionHot(posicaoHotList);
-
 		
-		System.out.println(5);
-		System.out.printf("ADICIONAD À HOTLIST NA POSIÇÃO %d!%n", posicaoHotList);
-
-		return true;
+		System.out.println(fn.exibirHotList());
 	}
 
-	private static boolean RemoverHot(FilmNow fn, Scanner sc) {
+	private static void atribuiHot(FilmNow fn, Scanner scanner) {
+		System.out.print("Posicao do Filme na Lista: ");
+		String posicaoFilmeLista = scanner.nextLine();
+		System.out.print("posicao da Hot: ");
+		String posicaoHotList = scanner.nextLine();
 
-		System.out.print("Posicao> ");
-		int posicao = sc.nextInt();
-		boolean removeuFilme = false;
+		System.out.println(fn.atribuiHot(Integer.parseInt(posicaoFilmeLista), Integer.parseInt(posicaoHotList)));
+	}
 
-		// Procura e remove da HotList
-		for (int i = 0; i < fn.getTamanho(); i++) {
-			if (fn.getFilme(i) != null) {
-				if (fn.getFilme(i).getHot()) {
-					if (fn.getFilme(i).getPosicionHot() == posicao) {
-						fn.getFilme(i).setHot(false);
-						fn.getFilme(i).setPosicionHot(11);
-						removeuFilme = true;
-						break;
-					}
-				}
-			}
-		}
+	private static void RemoverHot(FilmNow fn, Scanner scanner) {
 
-		return removeuFilme;
+		System.out.print("Posicao: ");
+		String posicao = scanner.nextLine();
+		
+		System.out.println(fn.RemoverHot(Integer.parseInt(posicao)));
 	}
 
 	/**
