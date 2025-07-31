@@ -1,46 +1,55 @@
+import java.util.*;
+
 public class RepareBem {
     
-    private Reparo[] listaReparo;
-    private int contadorReparos;
-    private OS[] listaOS;
-    private int contadorOS;
+    private ArrayList<Reparo> listaReparo;
+    private ArrayList<OS> listaOS;
 
     public RepareBem() {
-        this.listaReparo = new Reparo[100];
-        this.contadorReparos = 0;
-        this.listaOS = new OS[500];
-        this.contadorOS = 0;
+        this.listaReparo = new ArrayList<Reparo>();
+        this.listaOS = new ArrayList<OS>();
     }
 
     public void cadastrarReparo(String id, String descricao, double preco) {
-        if (this.contadorReparos <= 100){
-            this.listaReparo[this.contadorReparos] = (new Reparo(id, descricao, preco));
-            this.contadorReparos++;
-        }
+        if (this.listaReparo.size() < 100)
+            this.listaReparo.add(new Reparo(id, descricao, preco));
+        else
+            throw new IllegalArgumentException("ERRO"); 
+        
     }
 
     public void reajustarPrecoReparo(String idReparo, double percentual) {
-        for (int i = 0; i < this.contadorReparos; i++) {
+        for (int i = 0; i < this.listaReparo.size(); i++) {
             if (this.getIdReparo(i).equals(idReparo)) {
-                this.getReparo(i).reajustarPreco(percentual);
-                break;
+                this.listaReparo.get(i).reajustarPreco(percentual);
+                return;
             }
         }
+
+        throw new IllegalArgumentException("ERRO");
     }
 
     public void mudarStatusOrdemDeServico( int idOS, String status ) {
-        this.listaOS[idOS - 1].setStatus(status);
+        if (idOS < listaOS.size()){
+            this.listaOS.get(idOS - 1).setStatus(status);
+        } else {
+            throw new IllegalArgumentException("ERRO");
+        }
     }
 
     public double obterValorOrdemServico(int idOS) {
-        return this.listaOS[idOS - 1].getPreco();
+        if (idOS < listaOS.size()){
+            return this.listaOS.get(idOS - 1).getPreco();
+        } else {
+            throw new IllegalArgumentException("ERRO");
+        }
     }
 
     public String listarOrdemDeServico() {
         String out = "";
 
-        for (int i = 0; i < contadorOS; i++) {
-            out += this.listaOS[i].toString();
+        for (int i = 0; i < listaOS.size(); i++) {
+            out += this.listaOS.get(i).toString();
             out += "\n";
         }
 
@@ -51,9 +60,9 @@ public class RepareBem {
         String out = "Ordens de Serviço - ";
         out += status + "\n";
 
-        for (int i = 0; i < contadorOS; i++) {
-            if (this.listaOS[i].getStatus().equals(status)) {    
-                out += this.listaOS[i].toString();
+        for (int i = 0; i < listaOS.size(); i++) {
+            if (this.listaOS.get(i).getStatus().equals(status)) {    
+                out += this.listaOS.get(i).toString();
                 out += "\n";
             }
         }
@@ -65,42 +74,42 @@ public class RepareBem {
     }
 
     public int cadastrarOrdemDeServico(String cliente, String telefone, String roupa) {
-        this.listaOS[this.contadorOS] = new OS(cliente, telefone, roupa, this.contadorOS + 1);
-        this.contadorOS++;
+        this.listaOS.add(new OS(cliente, telefone, roupa, this.listaOS.size() - 1));
 
-        return this.contadorOS;
+        return this.listaOS.size();
     }
 
     public String exibirOrdemDeServico( int IDOS ) {
-        return this.listaOS[IDOS - 1].toString();
+        if (IDOS < this.listaOS.size()) {
+            return this.listaOS.get(IDOS - 1).toString();
+        }
+        throw new IllegalArgumentException("ERRO");
     }
 
     public void incluirReparoOrdemDeServico( int idOS, String idReparo ) {
-        this.getOS(idOS -1).addReparo(this.pegaReparoComOID(idReparo)); 
+        if (idOS <= this.listaOS.size()) {
+            this.listaOS.get(idOS -1).addReparo(this.pegaReparoComOID(idReparo));
+        }
+
+        throw new IllegalArgumentException("ERRO");
     }
 
     private Reparo pegaReparoComOID(String idReparo) {
-        int n = 0;
-        for (int i = 0; i < this.contadorReparos; i++) {
-            if (this.listaReparo[i].getId().equals(idReparo)) {
-                n = i;
-                break;
+        for (int i = 0; i < this.listaReparo.size(); i++) {
+            if (this.listaReparo.get(i).getId().equals(idReparo)) {
+                return this.listaReparo.get(i);
             }
         }
 
-        return this.listaReparo[n];
-    }
-
-    private OS getOS(int posicao) {
-        return this.listaOS[posicao];
-    }
-
-    private Reparo getReparo(int posicao) {
-        return this.listaReparo[posicao];
+        throw new IllegalArgumentException("ERRO");
     }
 
     private String getIdReparo(int posicao) {
-        return this.listaReparo[posicao].getId();
+        if (posicao < this.listaReparo.size()) {
+            return this.listaReparo.get(posicao).getId();
+        }
+
+        throw new IllegalArgumentException("ERRO");
     }
 
 }
