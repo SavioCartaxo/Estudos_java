@@ -1,38 +1,34 @@
-# Estudos de Java - Programação Orientada a Objetos (POO)
+# ☕ Estudos de Java - Programação Orientada a Objetos (POO)
 
-Este repositório reúne meus projetos e estudos em **Java com foco em POO (Programação Orientada a Objetos)**.  
-O objetivo principal é dominar os conceitos de orientação a objetos por meio de exercícios práticos e projetos aplicados.
+> 🎯 Este repositório reúne meus **estudos e projetos em Java** na **disciplina Programação 2 (UFCG, 2025)**, com foco em **Programação Orientada a Objetos (POO)**.  
+O objetivo é consolidar os principais conceitos da linguagem e aplicá-los em exercícios práticos, projetos e atividades acadêmicas.
 
-## Estrutura do Repositório
+---
 
-📁 beecrowd
+## 📁 Estrutura do Repositório
 
-  Contém resoluções de problemas da plataforma beecrowd, implementadas em Java com base nos princípios de POO.  
-  Os arquivos seguem a convenção de nome `Main*numero_da_questao*.java`.
+### 📁 `EstudosPOO`
+Contém meus **estudos teóricos e práticos** sobre os fundamentos da Programação Orientada a Objetos.  
+Nesta pasta estão exemplos e pequenos projetos criados para fixar conceitos como:
 
-  Exemplo:
-    - Main1001.java → Resolução da questão 1001
-    - Main1037.java → Resolução da questão 1037
-    - ...
+- Classes e objetos  
+- Construtores e encapsulamento  
+- Herança e polimorfismo  
+- Sobrecarga e sobrescrita de métodos  
+- Manipulação de listas e coleções  
+- Boas práticas e organização de código em Java
 
-📁 Aluno
+---
 
-  Sistema simples de **gestão de notas e controle de descanso de um aluno**.
+### 📁 `Atividades da disciplina programação 2`
+Aqui estão as **atividades, exercícios e projetos avaliativos** desenvolvidos durante a disciplina **Programação 2 (UFCG - 2025)**.  
+Os códigos exploram a aplicação prática dos princípios de POO e incluem testes, refatorações e resoluções de problemas propostos ao longo do curso.
 
-  Funcionalidades:
-    - Registro de horas de descanso
-    - Armazenamento de notas
-    - Cálculo da média
-    - Retorno de situação atual do aluno com base nos dados inseridos
+---
 
-📁 FilmNow
+### 📁 `Beecrowd`
+Contém as **primeiras resoluções de problemas da plataforma beecrowd**, feitas para praticar **sintaxe básica de Java** e compreensão da linguagem antes de avançar para POO.
 
-  Back-end de um sistema de **gerenciamento de uma lista de filmes para assistir**.
-
-  Funcionalidades:
-    - Adição livre de filmes à lista
-    - Edição de filmes
-    - Remoção de filmes
-    - Visualização completa da lista
-
-  Este projeto explora classes, encapsulamento, listas dinâmicas e interações básicas com o usuário.
+Exemplo de convenção de nomes:
+ - Main1001.java → Resolução da questão 1001
+ - Main1037.java → Resolução da questão 1037
